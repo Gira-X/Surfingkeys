@@ -1037,8 +1037,8 @@ const ChromeService = (function() {
         return url;
     }
 
+function openUrlInNewTab(currentTab, url, message) {
         var newTabPosition;
-    function openUrlInNewTab(currentTab, url, message) {
         if (currentTab) {
             switch (conf.newTabPosition) {
                 case 'left':
@@ -1058,20 +1058,27 @@ const ChromeService = (function() {
                     break;
             }
         }
-        chrome.tabs.create({
+
+      let tabConfig = {
             url: url,
             active: message.tab.active,
             index: newTabPosition,
             pinned: message.tab.pinned,
             openerTabId: currentTab.id
-        }, function(tab) {
-            if (message.scrollLeft || message.scrollTop) {
-                tabMessages[tab.id] = {
-                    scrollLeft: message.scrollLeft,
-                    scrollTop: message.scrollTop
-                };
-            }
-        });
+      };
+      
+      if (url === "about:blank") {
+        delete tabConfig["url"];
+      }
+      
+      chrome.tabs.create(tabConfig, function(tab) {
+        if (message.scrollLeft || message.scrollTop) {
+          tabMessages[tab.id] = {
+            scrollLeft: message.scrollLeft,
+            scrollTop: message.scrollTop
+          };
+        }
+      });
     }
 
     self.openLink = function(message, sender, sendResponse) {
