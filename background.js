@@ -1037,8 +1037,8 @@ const ChromeService = (function() {
         return url;
     }
 
-    function openUrlInNewTab(currentTab, url, message) {
         var newTabPosition;
+    function openUrlInNewTab(currentTab, url, message) {
         if (currentTab) {
             switch (conf.newTabPosition) {
                 case 'left':

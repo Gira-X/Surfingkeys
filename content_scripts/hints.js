@@ -597,7 +597,7 @@ div.hint-scrollable {
         var start = new Date().getTime();
         var found = createHints(cssSelector, attrs);
         if (found > (runtime.conf.hintExplicit ? 0 : 1)) {
-            self.statusLine += " - " + (new Date().getTime() - start) + "ms / " + found;
+          self.statusLine = "";
             self.enter();
         } else {
             handleHint();
